@@ -1,0 +1,29 @@
+services:
+  pi-stats:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pi-stats
+    restart: unless-stopped
+
+    # See the host’s real network + processes
+    network_mode: host
+    pid: host
+
+    # Read-only mounts for temps/fan and host /proc
+    volumes:
+      - /sys:/sys:ro
+      - /proc:/host-proc:ro
+
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOST: "0.0.0.0"
+      HOSTNAME: "0.0.0.0"
+
+    # Healthcheck
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:${PORT:-3000}/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
