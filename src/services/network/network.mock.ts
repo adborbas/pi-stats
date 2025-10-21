@@ -1,4 +1,4 @@
-import type { NetworkService, NetworkInfo } from "@/services/contracts";
+import type { NetworkService, NetworkInfo } from "@/services/network/contract";
 
 const round = (n: number, d = 2) => Number(n.toFixed(d));
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));

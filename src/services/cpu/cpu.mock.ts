@@ -1,4 +1,4 @@
-import type { CpuService, CpuInfo } from "@/services/contracts";
+import type { CpuService, CpuInfo } from "@/services/cpu/contract";
 
 const start = Date.now();
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));

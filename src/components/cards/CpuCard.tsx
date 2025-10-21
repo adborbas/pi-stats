@@ -1,6 +1,5 @@
 "use client";
 
-import useSWR from "swr";
 import { CardShell } from "@/components/ui/CardShell";
 import { StatList } from "@/components/ui/StatList";
 import { StatRow } from "@/components/ui/StatRow";
@@ -11,25 +10,11 @@ import { StatusDot } from "@/components/ui/StatusDot";
 import { toneForTempC } from "@/utils/health";
 import { ShowMoreButton } from "@/components/ui/ShowMoreButton";
 import { useState } from "react";
-
-type TopCpu = { pid: number; cmd: string; cpuPct: number };
-type CpuInfo = {
-  totalPct: number;
-  perCorePct: number[];
-  load: { l1: number; l5: number; l15: number; cpus: number };
-  tempC: number | null;
-  fanRpm?: number | null;
-  fanDutyPct?: number | null;
-  topCpu: TopCpu[];
-};
-
-const fetcher = (u: string) => fetch(u, { cache: "no-store" }).then((r) => r.json());
+import { useCpu } from "@/hooks/useCardData";
+import type { CpuInfo } from "@/services/cpu/contract";
 
 export default function CpuCard() {
-  const { data, error } = useSWR<CpuInfo>("/api/cards/cpu", fetcher, {
-    refreshInterval: 1000,
-    revalidateOnFocus: false,
-  });
+  const { data, error } = useCpu(1000);
   const [expanded, setExpanded] = useState(false);
 
   if (error) return <CardError title="CPU" />;
@@ -83,7 +68,7 @@ export default function CpuCard() {
       </div>
 
       <div className="mt-3 space-y-2">
-        {data.perCorePct.map((v, i) => (
+        {data.perCorePct.map((v: number, i: number) => (
           <div key={i} className="space-y-1">
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>Core {i}</span>
@@ -98,7 +83,7 @@ export default function CpuCard() {
         <div className="mt-3">
           <div className="text-sm font-semibold mb-2">Top processes</div>
           <ul className="space-y-1">
-            {data.topCpu.slice(0, 10).map((p) => (
+            {data.topCpu.slice(0, 10).map((p: CpuInfo["topCpu"][number]) => (
               <li key={p.pid} className="flex justify-between text-xs text-muted-foreground">
                 <span className="truncate max-w-[60%]">
                   {p.cmd} <span className="opacity-70">({p.pid})</span>

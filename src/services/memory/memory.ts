@@ -1,7 +1,7 @@
 import os from "node:os";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import type { MemoryService, MemoryInfo } from "@/services/contracts";
+import type { MemoryService, MemoryInfo } from "@/services/memory/contract";
 
 const execFileAsync = promisify(execFile);
 

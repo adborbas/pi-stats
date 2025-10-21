@@ -1,4 +1,4 @@
-import type { GeneralService, GeneralInfo } from "@/services/contracts";
+import type { GeneralService, GeneralInfo } from "@/services/general/contract";
 
 const start = Date.now();
 

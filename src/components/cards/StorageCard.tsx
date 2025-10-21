@@ -5,7 +5,7 @@ import { DiskRow } from "@/components/rows/DiskRow";
 import { StatRow } from "@/components/ui/StatRow";
 import { CardLoading, CardError } from "@/components/ui/CardState";
 import { useStorage } from "@/hooks/useCardData";
-import type { StorageInfo } from "@/services/contracts";
+import type { StorageInfo } from "@/services/storage/contract";
 
 export default function StorageCard() {
   const { data, error } = useStorage();

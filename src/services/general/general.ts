@@ -1,5 +1,5 @@
 import os from "node:os";
-import type { GeneralService, GeneralInfo } from "@/services/contracts";
+import type { GeneralService, GeneralInfo } from "@/services/general/contract";
 
 function getUptime() {
   return Math.floor(os.uptime());

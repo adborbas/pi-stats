@@ -13,3 +13,7 @@ export function useStorage() {
 export function useNetwork(ms: number) {
   return useSWR("/api/cards/network", f, { refreshInterval: ms, revalidateOnFocus: false });
 }
+
+export function useCpu(ms: number) {
+  return useSWR("/api/cards/cpu", f, { refreshInterval: ms, revalidateOnFocus: false });
+}

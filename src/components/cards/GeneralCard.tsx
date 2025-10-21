@@ -7,7 +7,7 @@ import { CardLoading, CardError } from "@/components/ui/CardState";
 import { useGeneral } from "@/hooks/useCardData";
 
 export default function GeneralCard() {
-  const { data, error } = useGeneral(1000);
+  const { data, error } = useGeneral(30_000);
 
   if (error) return <CardError title="General" />;
   if (!data) return <CardLoading title="General" />;

@@ -3,7 +3,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { CpuService, CpuInfo } from "@/services/contracts";
+import type { CpuService, CpuInfo } from "./contract";
 
 const execFileAsync = promisify(execFile);
 
@@ -118,11 +118,11 @@ async function topCpu(): Promise<{ pid: number; cmd: string; cpuPct: number }[]>
       .map((l) => l.trim())
       .filter(Boolean)
       .map((l) => {
-        const m = l.match(/^\\s*(\\d+)\\s+(\\S+)\\s+([\\d.]+)/);
+        const m = l.match(/^\s*(\d+)\s+(\S+)\s+([\d.]+)/);
         if (!m) return null;
         return { pid: Number(m[1]), cmd: m[2], cpuPct: Number(parseFloat(m[3]).toFixed(1)) };
       })
-      .filter(Boolean) as any;
+      .filter((x): x is { pid: number; cmd: string; cpuPct: number } => x !== null);
   } catch {
     return [];
   }
