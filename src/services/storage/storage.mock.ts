@@ -1,4 +1,4 @@
-import type { StorageService, StorageInfo } from "@/services/contracts";
+import type { StorageService, StorageInfo } from "@/services/storage/contract";
 
 const round = (n: number, d = 1) => Number(n.toFixed(d));
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));

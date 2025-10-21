@@ -2,7 +2,7 @@ import os from "node:os";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import fs from "node:fs/promises";
-import type { NetworkService, NetworkInfo } from "@/services/contracts";
+import type { NetworkService, NetworkInfo } from "@/services/network/contract";
 
 const execFileAsync = promisify(execFile);
 
