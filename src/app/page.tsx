@@ -3,6 +3,7 @@ import GeneralCard from "@/components/cards/GeneralCard";
 import MemoryCard from "@/components/cards/MemoryCard";
 import StorageCard from "@/components/cards/StorageCard";
 import NetworkCard from "@/components/cards/NetworkCard";
+import CpuCard from "@/components/cards/CpuCard";
 
 export default function Dashboard() {
   return (
@@ -11,6 +12,7 @@ export default function Dashboard() {
       <CardGrid>
         <GeneralCard />
         <MemoryCard />
+        <CpuCard />
         <StorageCard />
         <NetworkCard />
       </CardGrid>

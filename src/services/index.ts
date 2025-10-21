@@ -21,4 +21,8 @@ export const services = {
     const mod = MOCK ? await import("./mock/network") : await import("./real/network");
     return mod.networkService as NetworkService;
   },
+  cpu: async () => {
+    const mod = process.env.MOCK ? await import("@/services/mock/cpu") : await import("@/services/real/cpu");
+    return mod.cpuService;
+  },
 };
