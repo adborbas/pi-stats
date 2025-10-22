@@ -4,7 +4,7 @@ import MemoryCard from "@/components/cards/MemoryCard";
 import StorageCard from "@/components/cards/StorageCard";
 import NetworkCard from "@/components/cards/NetworkCard";
 import CpuCard from "@/components/cards/CpuCard";
-import SystemHealthCard from "@/components/cards/SystemHealth";
+import SystemHealthCard from "@/components/cards/SystemHealthCard";
 
 export default function Dashboard() {
   return (

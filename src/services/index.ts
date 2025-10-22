@@ -1,5 +1,6 @@
 import { CpuService } from "./cpu/contract";
 import { GeneralService } from "./general/contract";
+import { HealthService } from "./health/contract";
 import { MemoryService } from "./memory/contract";
 import { NetworkService } from "./network/contract";
 import { StorageService } from "./storage/contract";
@@ -28,5 +29,9 @@ export const services = {
   cpu: async (): Promise<CpuService> => {
     const mod = process.env.MOCK ? await import("@/services/cpu/cpu.mock") : await import("@/services/cpu/cpu");
     return mod.cpuService;
+  },
+  health: async (): Promise<HealthService> => {
+    const mod = process.env.MOCK ? await import("@/services/health/health.mock") : await import("@/services/health/health");
+    return mod.healthService;
   },
 };

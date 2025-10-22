@@ -17,3 +17,7 @@ export function useNetwork(ms: number) {
 export function useCpu(ms: number) {
   return useSWR("/api/cards/cpu", f, { refreshInterval: ms, revalidateOnFocus: false });
 }
+
+export function useHealth(ms: number) {
+  return useSWR("/api/cards/health", f, { refreshInterval: ms, revalidateOnFocus: false });
+}
