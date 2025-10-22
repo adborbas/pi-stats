@@ -6,8 +6,6 @@ import { StatRow } from "@/components/ui/StatRow";
 import { LoadTriple } from "@/components/ui/LoadTriple";
 import { Progress } from "@/components/ui/progress";
 import { CardLoading, CardError } from "@/components/ui/CardState";
-import { StatusDot } from "@/components/ui/StatusDot";
-import { toneForTempC } from "@/utils/health";
 import { ShowMoreButton } from "@/components/ui/ShowMoreButton";
 import { useState } from "react";
 import { Collapsible } from "@/components/ui/Collapsible";
@@ -20,8 +18,6 @@ export default function CpuCard() {
 
   if (error) return <CardError title="CPU" />;
   if (!data) return <CardLoading title="CPU" />;
-
-  const tempTone = data.tempC == null ? "neutral" : toneForTempC(data.tempC);
 
   const fanText =
     data.fanRpm != null && Number.isFinite(Number(data.fanRpm))
@@ -44,7 +40,6 @@ export default function CpuCard() {
 
       <div className="mt-3">
         <LoadTriple
-          abs={[data.load.l1, data.load.l5, data.load.l15]}
           pct={[
             Math.min(100, (data.load.l1 / data.load.cpus) * 100),
             Math.min(100, (data.load.l5 / data.load.cpus) * 100),
@@ -59,7 +54,6 @@ export default function CpuCard() {
             label="CPU Temp"
             value={
               <span className="inline-flex items-center gap-2">
-                <StatusDot tone={tempTone} title={`CPU temperature`} />
                 <span>{data.tempC == null ? "n/a" : `${data.tempC.toFixed(1)}°C`}</span>
               </span>
             }

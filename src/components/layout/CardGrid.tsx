@@ -24,22 +24,24 @@ export function CardGrid({
   }, []);
 
   const isTwoCols = vw >= twoColWidth;
-  const containerMax = isTwoCols ? twoColWidth : targetColumnWidth;
 
   const items = Children.toArray(children).map((child, idx) => (
     <div
       key={idx}
       className="mb-4"
-      style={{ paddingBottom: gap / 2, minWidth: targetColumnWidth }}
+      style={{ paddingBottom: gap / 2, width: "100%" }}
     >
       {isValidElement(child) ? child : <>{child}</>}
     </div>
   ));
 
   if (!isTwoCols) {
+    const containerMax = Math.min(vw || targetColumnWidth, targetColumnWidth);
     return (
-      <div className={["mx-auto w-full", "px-4", className].join(" ")} style={{ maxWidth: containerMax }}>
-        <div>{items}</div>
+      <div className={["mx-auto w-full", "px-4", className].join(" ")}
+        style={{ maxWidth: containerMax }}
+      >
+        <div style={{ width: "100%" }}>{items}</div>
       </div>
     );
   }
@@ -51,7 +53,9 @@ export function CardGrid({
   }
 
   return (
-    <div className={["mx-auto w-full", "px-4", className].join(" ")} style={{ maxWidth: containerMax }}>
+    <div className={["mx-auto w-full", "px-4", className].join(" ")}
+      style={{ maxWidth: twoColWidth }}
+    >
       <div className="flex" style={{ columnGap: gap, gap }}>
         <div style={{ width: targetColumnWidth }}>{left}</div>
         <div style={{ width: targetColumnWidth }}>{right}</div>
