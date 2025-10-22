@@ -8,8 +8,8 @@ export default function Dashboard() {
       <CardGrid>
         <GeneralCard />
         <SystemHealthCard />
-        <MemoryCard />
         <CpuCard />
+        <MemoryCard />
         <StorageCard />
         <NetworkCard />
       </CardGrid>
