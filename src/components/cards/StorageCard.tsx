@@ -1,22 +1,32 @@
 "use client";
 
+import { useMemo } from "react";
 import { CardShell } from "@/components/ui/CardShell";
 import { DiskRow } from "@/components/rows/DiskRow";
 import { StatRow } from "@/components/ui/StatRow";
 import { CardLoading, CardError } from "@/components/ui/CardState";
 import { useStorage } from "@/hooks/useCardData";
 import type { StorageInfo } from "@/services/storage/contract";
+import { ListStack } from "@/components/ui/ListStack";
 
 export default function StorageCard() {
   const { data, error } = useStorage();
 
+  const snapshot = useMemo(() => {
+    if (!data) return null;
+    return {
+      disks: data.disks as StorageInfo["disks"],
+      swap: data.swap,
+    };
+  }, [data]);
+
   if (error) return <CardError title="Storage" />;
-  if (!data) return <CardLoading title="Storage" />;
+  if (!snapshot) return <CardLoading title="Storage" />;
 
   return (
     <CardShell title="Storage">
-      <div className="space-y-3">
-        {data.disks.map((d: StorageInfo["disks"][number]) => (
+      <ListStack gap="md">
+        {snapshot.disks.map((d) => (
           <DiskRow
             key={`${d.mount}-${d.fs}`}
             mount={d.mount}
@@ -26,11 +36,11 @@ export default function StorageCard() {
             usedPct={d.usedPct}
           />
         ))}
-      </div>
+      </ListStack>
 
       <StatRow
         label="Swap"
-        value={`${data.swap.usedMB} / ${data.swap.totalMB} MB (${data.swap.usedPct}%)`}
+        value={`${snapshot.swap.usedMB} / ${snapshot.swap.totalMB} MB (${snapshot.swap.usedPct}%)`}
       />
     </CardShell>
   );

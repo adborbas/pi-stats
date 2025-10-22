@@ -1,9 +1,5 @@
 import { CardGrid } from "@/components/layout/CardGrid";
-import GeneralCard from "@/components/cards/GeneralCard";
-import MemoryCard from "@/components/cards/MemoryCard";
-import StorageCard from "@/components/cards/StorageCard";
-import NetworkCard from "@/components/cards/NetworkCard";
-import CpuCard from "@/components/cards/CpuCard";
+import { GeneralCard, SystemHealthCard, MemoryCard, CpuCard, StorageCard, NetworkCard } from "@/components/cards";
 
 export default function Dashboard() {
   return (
@@ -11,8 +7,9 @@ export default function Dashboard() {
       <h1 className="text-3xl font-bold mb-6 text-foreground">Raspberry Pi</h1>
       <CardGrid>
         <GeneralCard />
-        <MemoryCard />
+        <SystemHealthCard />
         <CpuCard />
+        <MemoryCard />
         <StorageCard />
         <NetworkCard />
       </CardGrid>
