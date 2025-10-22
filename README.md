@@ -33,7 +33,7 @@ Key principles:
     temperature, fan, etc.)
 - Auto-refresh UI built with Next.js and SWR
 - Host-scope monitoring via Docker (`network_mode: host`)
-- Clean modular dashboard: General, Memory, CPU, Storage, Network cards
+- Clean modular dashboard: General, System Health, Memory, CPU, Storage, Network cards
 - Mock mode for local development
 - Standalone Docker image build
 
