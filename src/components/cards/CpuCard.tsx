@@ -10,6 +10,7 @@ import { StatusDot } from "@/components/ui/StatusDot";
 import { toneForTempC } from "@/utils/health";
 import { ShowMoreButton } from "@/components/ui/ShowMoreButton";
 import { useState } from "react";
+import { Collapsible } from "@/components/ui/Collapsible";
 import { useCpu } from "@/hooks/useCardData";
 import type { CpuInfo } from "@/services/cpu/contract";
 
@@ -26,8 +27,8 @@ export default function CpuCard() {
     data.fanRpm != null && Number.isFinite(Number(data.fanRpm))
       ? `${Math.round(Number(data.fanRpm))} RPM`
       : data.fanDutyPct != null && Number.isFinite(Number(data.fanDutyPct))
-      ? `${Math.round(Number(data.fanDutyPct))}% duty`
-      : "n/a";
+        ? `${Math.round(Number(data.fanDutyPct))}% duty`
+        : "n/a";
 
   return (
     <CardShell
@@ -79,21 +80,21 @@ export default function CpuCard() {
         ))}
       </div>
 
-      {expanded && (
-        <div className="mt-3">
-          <div className="text-sm font-semibold mb-2">Top processes</div>
-          <ul className="space-y-1">
-            {data.topCpu.slice(0, 10).map((p: CpuInfo["topCpu"][number]) => (
-              <li key={p.pid} className="flex justify-between text-xs text-muted-foreground">
-                <span className="truncate max-w-[60%]">
-                  {p.cmd} <span className="opacity-70">({p.pid})</span>
-                </span>
-                <span className="tabular-nums">{p.cpuPct.toFixed(1)}%</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <Collapsible
+        expanded={expanded}
+        summary={<div className="text-sm font-semibold">Top processes</div>}
+      >
+        <ul className="space-y-1 mt-2">
+          {data.topCpu.slice(0, 10).map((p: CpuInfo["topCpu"][number]) => (
+            <li key={p.pid} className="flex justify-between text-xs text-muted-foreground">
+              <span className="truncate max-w-[60%]">
+                {p.cmd} <span className="opacity-70">({p.pid})</span>
+              </span>
+              <span className="tabular-nums">{p.cpuPct.toFixed(1)}%</span>
+            </li>
+          ))}
+        </ul>
+      </Collapsible>
     </CardShell>
   );
 }
