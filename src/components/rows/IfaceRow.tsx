@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { format } from "@/utils/format";
 
 export type IfaceRowProps = {
   name: string;

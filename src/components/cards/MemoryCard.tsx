@@ -5,10 +5,12 @@ import { CardShell } from "@/components/ui/CardShell";
 import { ProgressStat } from "@/components/ui/ProgressStat";
 import { Collapsible } from "@/components/ui/Collapsible";
 import { ShowMoreButton } from "@/components/ui/ShowMoreButton";
-import { ProcessRow } from "@/components/rows/ProcessRow";
 import { CardLoading, CardError } from "@/components/ui/CardState";
 import { useMemory } from "@/hooks/useCardData";
 import type { TopProc } from "@/lib/system/types";
+import { Section } from "@/components/ui/Section";
+import { ProcessList } from "@/components/rows/ProcessList";
+import { SummaryTitle } from "@/components/ui/SummaryTitle";
 
 function clamp(n: number, lo = 0, hi = 100) { return Math.max(lo, Math.min(hi, n)); }
 
@@ -45,15 +47,11 @@ export default function MemoryCard() {
       <ProgressStat label="Used" used={snapshot.used} total={snapshot.total} valuePercent={snapshot.pct} />
 
       {snapshot.hasTop && (
-        <Collapsible expanded={expanded} summary={<div className="text-sm font-semibold">Top processes</div>}>
-          <ul className="space-y-1">
-            {snapshot.visible.map((p) => (
-              <li key={p.pid}>
-                <ProcessRow pid={p.pid} name={p.cmd} rssMB={Number(p.rssMB)} memPct={Number(p.memPct)} />
-              </li>
-            ))}
-          </ul>
-        </Collapsible>
+        <Section>
+          <Collapsible expanded={expanded} summary={<SummaryTitle text="Top processes" />}>
+            <ProcessList items={snapshot.visible} />
+          </Collapsible>
+        </Section>
       )}
     </CardShell>
   );

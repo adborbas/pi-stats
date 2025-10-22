@@ -5,12 +5,15 @@ import { CardShell } from "@/components/ui/CardShell";
 import { StatList } from "@/components/ui/StatList";
 import { StatRow } from "@/components/ui/StatRow";
 import { LoadTriple } from "@/components/ui/LoadTriple";
-import { Progress } from "@/components/ui/progress";
 import { CardLoading, CardError } from "@/components/ui/CardState";
 import { ShowMoreButton } from "@/components/ui/ShowMoreButton";
 import { Collapsible } from "@/components/ui/Collapsible";
 import { useCpu } from "@/hooks/useCardData";
 import type { CpuInfo } from "@/services/cpu/contract";
+import { Section } from "@/components/ui/Section";
+import { PerCoreList } from "@/components/rows/PerCoreList";
+import { ProcessList } from "@/components/rows/ProcessList";
+import { SummaryTitle } from "@/components/ui/SummaryTitle";
 
 function fmtFan(info: Pick<CpuInfo, "fanRpm" | "fanDutyPct">) {
   const rpm = Number(info.fanRpm);
@@ -50,40 +53,27 @@ export default function CpuCard() {
         <StatRow label="Total" value={<span className="tabular-nums">{snapshot.totalPct.toFixed(1)}%</span>} />
       </StatList>
 
-      <div className="mt-3">
+      <Section>
         <LoadTriple pct={snapshot.pctTriple} />
-      </div>
+      </Section>
 
-      <div className="mt-3">
+      <Section>
         <StatList>
           <StatRow label="CPU Temp" value={<span className="inline-flex items-center gap-2">{snapshot.tempText}</span>} />
           <StatRow label="Fan" value={snapshot.fanText} />
         </StatList>
-      </div>
+      </Section>
 
-      <div className="mt-3 space-y-2">
-        {snapshot.perCore.map((v: number, i: number) => (
-          <div key={i} className="space-y-1">
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Core {i}</span>
-              <span className="tabular-nums">{v.toFixed(1)}%</span>
-            </div>
-            <Progress value={v} className="h-2" />
-          </div>
-        ))}
-      </div>
+      <PerCoreList values={snapshot.perCore} />
 
-      <Collapsible expanded={expanded} summary={<div className="text-sm font-semibold">Top processes</div>}>
-        <ul className="space-y-1 mt-2">
-          {snapshot.topCpu.slice(0, 10).map((p: CpuInfo["topCpu"][number]) => (
-            <li key={p.pid} className="flex justify-between text-xs text-muted-foreground">
-              <span className="truncate max-w-[60%]">
-                {p.cmd} <span className="opacity-70">({p.pid})</span>
-              </span>
-              <span className="tabular-nums">{p.cpuPct.toFixed(1)}%</span>
-            </li>
-          ))}
-        </ul>
+      <Collapsible expanded={expanded} summary={<SummaryTitle text="Top processes" />}>
+        <ProcessList
+          items={snapshot.topCpu.map((p: CpuInfo["topCpu"][number]) => ({
+            pid: p.pid,
+            cmd: p.cmd,
+            cpuPct: p.cpuPct,
+          }))}
+        />
       </Collapsible>
     </CardShell>
   );

@@ -7,6 +7,7 @@ import { StatRow } from "@/components/ui/StatRow";
 import { CardLoading, CardError } from "@/components/ui/CardState";
 import { useStorage } from "@/hooks/useCardData";
 import type { StorageInfo } from "@/services/storage/contract";
+import { ListStack } from "@/components/ui/ListStack";
 
 export default function StorageCard() {
   const { data, error } = useStorage();
@@ -24,7 +25,7 @@ export default function StorageCard() {
 
   return (
     <CardShell title="Storage">
-      <div className="space-y-3">
+      <ListStack gap="md">
         {snapshot.disks.map((d) => (
           <DiskRow
             key={`${d.mount}-${d.fs}`}
@@ -35,7 +36,7 @@ export default function StorageCard() {
             usedPct={d.usedPct}
           />
         ))}
-      </div>
+      </ListStack>
 
       <StatRow
         label="Swap"

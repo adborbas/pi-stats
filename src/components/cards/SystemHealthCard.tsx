@@ -7,6 +7,7 @@ import { StatRow } from "@/components/ui/StatRow";
 import { CardLoading, CardError } from "@/components/ui/CardState";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { useHealth } from "@/hooks/useCardData";
+import { TwoLineValue } from "@/components/ui/TwoLineValue";
 
 function toneFrom(overall: "ok" | "warn" | "crit"): "good" | "warn" | "bad" {
     return overall === "crit" ? "bad" : overall === "warn" ? "warn" : "good";
@@ -61,27 +62,17 @@ export default function SystemHealthCard() {
                 <StatRow
                     label="Updates"
                     value={
-                        snapshot.updatesExamples ? (
-                            <span className="inline-flex flex-col items-end">
-                                <span className="font-medium">{snapshot.updatesText}</span>
-                                <span className="text-xs text-muted-foreground">{snapshot.updatesExamples}</span>
-                            </span>
-                        ) : (
-                            <span className="font-medium">{snapshot.updatesText}</span>
-                        )
+                        snapshot.updatesExamples
+                            ? <TwoLineValue primary={snapshot.updatesText} secondary={snapshot.updatesExamples} />
+                            : snapshot.updatesText
                     }
                 />
                 <StatRow
                     label="Failed services"
                     value={
-                        snapshot.failedList ? (
-                            <span className="inline-flex flex-col items-end">
-                                <span className="font-medium">{snapshot.failedText}</span>
-                                <span className="text-xs text-muted-foreground">{snapshot.failedList}</span>
-                            </span>
-                        ) : (
-                            <span className="font-medium">{snapshot.failedText}</span>
-                        )
+                        snapshot.failedList
+                            ? <TwoLineValue primary={snapshot.failedText} secondary={snapshot.failedList} />
+                            : snapshot.failedText
                     }
                 />
                 <StatRow label="OS upgrade" value={snapshot.osUpgradeText} />

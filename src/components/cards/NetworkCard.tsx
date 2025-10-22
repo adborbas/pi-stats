@@ -8,6 +8,9 @@ import { IfaceRow } from "@/components/rows/IfaceRow";
 import { CardLoading, CardError } from "@/components/ui/CardState";
 import { ShowMoreButton } from "@/components/ui/ShowMoreButton";
 import { useNetwork } from "@/hooks/useCardData";
+import { SummaryTitle } from "@/components/ui/SummaryTitle";
+import { ListStack } from "@/components/ui/ListStack";
+import { MutedText } from "@/components/ui/MutedText";
 
 type IfInfo = { name: string; mac: string; ipv4: string | null; ipv6: string | null };
 type Rate = { name: string; rxMbps: number; txMbps: number };
@@ -66,7 +69,7 @@ function partitionIfaces(list: MergedIface[]) {
 export default function NetworkCard() {
   const { data, error } = useNetwork(2000);
   const [expanded, setExpanded] = useState(false);
-  const [showVirtual, setShowVirtual] = useState(false);
+  const [showVirtual] = useState(false);
 
   const isLoading = !data && !error;
   const isError = !!error;
@@ -122,11 +125,11 @@ export default function NetworkCard() {
               isPrimary
             />
           ) : (
-            <div className="text-sm text-muted-foreground">Detecting interfaces…</div>
+            <MutedText text="Detecting interfaces…" />
           )}
 
-          <Collapsible expanded={expanded} summary={<div className="text-sm font-semibold">Interfaces</div>}>
-            <div className="space-y-2">
+          <Collapsible expanded={expanded} summary={<SummaryTitle text="Interfaces" />}>
+            <ListStack gap="sm">
               {snapshot.physical.map(i => (
                 <IfaceRow
                   key={i.name}
@@ -142,17 +145,9 @@ export default function NetworkCard() {
               {snapshot.virtuals.length > 0 && (
                 <Collapsible
                   expanded={showVirtual}
-                  summary={
-                    <button
-                      type="button"
-                      className="text-sm font-semibold text-left"
-                      onClick={() => setShowVirtual(v => !v)}
-                    >
-                      Virtual interfaces ({snapshot.virtuals.length})
-                    </button>
-                  }
+                  summary={<SummaryTitle text={`Virtual interfaces (${snapshot.virtuals.length})`} />}
                 >
-                  <div className="space-y-2">
+                  <ListStack gap="sm">
                     {snapshot.virtuals.map(i => (
                       <IfaceRow
                         key={i.name}
@@ -164,10 +159,10 @@ export default function NetworkCard() {
                         txMbps={i.txMbps}
                       />
                     ))}
-                  </div>
+                  </ListStack>
                 </Collapsible>
               )}
-            </div>
+            </ListStack>
           </Collapsible>
         </>
       )}
